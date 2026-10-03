@@ -79,16 +79,15 @@ func TestDNSRefused(t *testing.T) {
 	}
 }
 
-func TestDNSAttributesSource(t *testing.T) {
+func TestDNSLabelsSourceKind(t *testing.T) {
 	s, out := testServer(t, "pypi.org")
-	writeAttribution(t, s.attrib.path, `{"10.89.0.14": "ws-1"}`)
 	s.answerDNS(query(t, "pypi.org.", dnsmessage.TypeA), netip.MustParseAddr("10.89.0.14"))
 	s.answerDNS(query(t, "pypi.org.", dnsmessage.TypeA), workerIP)
 	logged := events(t, out, "dns")
-	if logged[0]["source_kind"] != "workspace" || logged[0]["wsid"] != "ws-1" {
+	if logged[0]["source_kind"] != "workspace" {
 		t.Errorf("workspace query logged %v", logged[0])
 	}
-	if logged[1]["source_kind"] != "worker" || logged[1]["wsid"] != nil {
+	if logged[1]["source_kind"] != "worker" {
 		t.Errorf("worker query logged %v", logged[1])
 	}
 }

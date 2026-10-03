@@ -16,11 +16,10 @@ import (
 )
 
 type config struct {
-	policy      string
-	attribution string
-	listen      []netip.Addr
-	answer      netip.Addr
-	worker      netip.Addr
+	policy string
+	listen []netip.Addr
+	answer netip.Addr
+	worker netip.Addr
 }
 
 func main() {
@@ -42,7 +41,6 @@ func run() error {
 	s := &server{
 		answer:  cfg.answer,
 		worker:  cfg.worker,
-		attrib:  &attribution{path: cfg.attribution},
 		log:     newLogger(os.Stdout),
 		idle:    idleTimeout,
 		resolve: lookup,
@@ -75,12 +73,9 @@ func run() error {
 }
 
 func configFromEnv() (config, error) {
-	cfg := config{
-		policy:      os.Getenv("EGRESSD_POLICY"),
-		attribution: os.Getenv("EGRESSD_ATTRIBUTION"),
-	}
-	if cfg.policy == "" || cfg.attribution == "" {
-		return cfg, errors.New("EGRESSD_POLICY and EGRESSD_ATTRIBUTION must be set")
+	cfg := config{policy: os.Getenv("EGRESSD_POLICY")}
+	if cfg.policy == "" {
+		return cfg, errors.New("EGRESSD_POLICY must be set")
 	}
 	var err error
 	if cfg.answer, err = ipv4FromEnv("EGRESSD_DNS_ANSWER"); err != nil {

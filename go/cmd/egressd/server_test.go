@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/netip"
-	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -22,7 +21,6 @@ func testServer(t *testing.T, patterns ...string) (*server, *bytes.Buffer) {
 	s := &server{
 		answer: sandboxIP,
 		worker: workerIP,
-		attrib: &attribution{path: filepath.Join(t.TempDir(), "attribution.json")},
 		log:    newLogger(&out),
 		idle:   idleTimeout,
 	}

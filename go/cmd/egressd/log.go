@@ -42,10 +42,9 @@ type notice struct {
 
 // source is common to every event about traffic.
 type source struct {
-	TS         string  `json:"ts"`
-	Ev         string  `json:"ev"`
-	SourceKind string  `json:"source_kind"`
-	WSID       *string `json:"wsid"`
+	TS         string `json:"ts"`
+	Ev         string `json:"ev"`
+	SourceKind string `json:"source_kind"`
 }
 
 type dnsEvent struct {

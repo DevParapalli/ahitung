@@ -29,7 +29,6 @@ type server struct {
 	policy atomic.Pointer[Policy]
 	answer netip.Addr // egressd's address on the sandbox, returned for allowed names
 	worker netip.Addr
-	attrib *attribution
 	log    *logger
 	idle   time.Duration
 
@@ -44,11 +43,7 @@ func (s *server) source(ev string, ip netip.Addr) source {
 	if ip == s.worker {
 		kind = "worker"
 	}
-	wsid, err := s.attrib.lookup(ip)
-	if err != nil {
-		s.log.emit(notice{TS: timestamp(), Ev: "error", Msg: "attribution: " + err.Error()})
-	}
-	return source{TS: timestamp(), Ev: ev, SourceKind: kind, WSID: wsid}
+	return source{TS: timestamp(), Ev: ev, SourceKind: kind}
 }
 
 // serveTLS splices every connection accepted on ln until ln fails.
