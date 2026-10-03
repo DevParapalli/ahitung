@@ -1,0 +1,123 @@
+{
+  "sid": "01920000-0000-7000-8000-000000000001",
+  "last_seq": 17,
+  "phase": "started",
+  "proto": "ahitung/1",
+  "workspace": "01920000-0000-7000-8000-000000000041",
+  "workspace_state": "cold",
+  "tools_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "rejection": null,
+  "ending": null,
+  "settings": {
+    "model": "m-1",
+    "provider": "p",
+    "params": null,
+    "continuation": null,
+    "approvals": null,
+    "advisory": null
+  },
+  "turns": {
+    "01920000-0000-7000-8000-000000000011": {
+      "status": "open",
+      "committed": true,
+      "depth": 0,
+      "parent": null,
+      "call_id": null,
+      "agent": null,
+      "next": null,
+      "stop": null,
+      "invocations": {
+        "0": {
+          "model": null,
+          "provider": null,
+          "stop": null,
+          "usage": null,
+          "blocks": {
+            "0": {
+              "kind": "text",
+              "text": "research this",
+              "closed": true,
+              "attachment": null,
+              "call_id": null
+            }
+          }
+        },
+        "1": {
+          "model": "m-1",
+          "provider": "p",
+          "stop": "tool_use",
+          "usage": {
+            "in": 6,
+            "out": 4,
+            "cache_read": null,
+            "cache_write": null,
+            "reasoning": null
+          },
+          "blocks": {
+            "0": {
+              "kind": "tool_call",
+              "text": "",
+              "closed": true,
+              "attachment": null,
+              "call_id": "01920000-0000-7000-8000-000000000021"
+            }
+          }
+        }
+      }
+    },
+    "01920000-0000-7000-8000-000000000012": {
+      "status": "ended",
+      "committed": true,
+      "depth": 1,
+      "parent": "01920000-0000-7000-8000-000000000011",
+      "call_id": "01920000-0000-7000-8000-000000000021",
+      "agent": "native",
+      "next": null,
+      "stop": "end_turn",
+      "invocations": {
+        "1": {
+          "model": "m-1",
+          "provider": "p",
+          "stop": "end_turn",
+          "usage": {
+            "in": 3,
+            "out": 1,
+            "cache_read": null,
+            "cache_write": null,
+            "reasoning": null
+          },
+          "blocks": {
+            "0": {
+              "kind": "text",
+              "text": "found",
+              "closed": true,
+              "attachment": null,
+              "call_id": null
+            }
+          }
+        }
+      }
+    }
+  },
+  "calls": {
+    "01920000-0000-7000-8000-000000000021": {
+      "tid": "01920000-0000-7000-8000-000000000011",
+      "inv": 1,
+      "name": "delegate",
+      "args": {
+        "task": "find it"
+      },
+      "started": true,
+      "output": "",
+      "approval_id": null,
+      "child": "01920000-0000-7000-8000-000000000012",
+      "result": {
+        "ms": 900,
+        "content": "found",
+        "ref": null,
+        "window": null
+      }
+    }
+  },
+  "approvals": {}
+}

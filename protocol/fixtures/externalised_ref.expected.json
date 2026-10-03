@@ -1,0 +1,95 @@
+{
+  "sid": "01920000-0000-7000-8000-000000000001",
+  "last_seq": 10,
+  "phase": "started",
+  "proto": "ahitung/1",
+  "workspace": "01920000-0000-7000-8000-000000000041",
+  "workspace_state": "cold",
+  "tools_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "rejection": null,
+  "ending": null,
+  "settings": {
+    "model": "m-1",
+    "provider": "p",
+    "params": null,
+    "continuation": null,
+    "approvals": null,
+    "advisory": null
+  },
+  "turns": {
+    "01920000-0000-7000-8000-000000000011": {
+      "status": "open",
+      "committed": true,
+      "depth": 0,
+      "parent": null,
+      "call_id": null,
+      "agent": null,
+      "next": null,
+      "stop": null,
+      "invocations": {
+        "0": {
+          "model": null,
+          "provider": null,
+          "stop": null,
+          "usage": null,
+          "blocks": {
+            "0": {
+              "kind": "text",
+              "text": "fetch it",
+              "closed": true,
+              "attachment": null,
+              "call_id": null
+            }
+          }
+        },
+        "1": {
+          "model": "m-1",
+          "provider": "p",
+          "stop": "tool_use",
+          "usage": {
+            "in": 9,
+            "out": 7,
+            "cache_read": 4,
+            "cache_write": 5,
+            "reasoning": null
+          },
+          "blocks": {
+            "0": {
+              "kind": "tool_call",
+              "text": "",
+              "closed": true,
+              "attachment": null,
+              "call_id": "01920000-0000-7000-8000-000000000021"
+            }
+          }
+        }
+      }
+    }
+  },
+  "calls": {
+    "01920000-0000-7000-8000-000000000021": {
+      "tid": "01920000-0000-7000-8000-000000000011",
+      "inv": 1,
+      "name": "web_fetch",
+      "args": {
+        "url": "https://example.org"
+      },
+      "started": true,
+      "output": "",
+      "approval_id": null,
+      "child": null,
+      "result": {
+        "ms": 800,
+        "content": null,
+        "ref": {
+          "kind": "document",
+          "uri": "payload://9f2a000000000000000000000000000000000000000000000000000000000001",
+          "bytes": 200000,
+          "sha256": "9f2a000000000000000000000000000000000000000000000000000000000001"
+        },
+        "window": null
+      }
+    }
+  },
+  "approvals": {}
+}

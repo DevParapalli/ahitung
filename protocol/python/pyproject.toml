@@ -1,0 +1,16 @@
+[project]
+name = "ahitung-protocol"
+version = "0.1.0"
+description = "ahitung/1 wire protocol: event models, reducer, tools_hash."
+license = "MIT"
+authors = [
+    { name = "DevParapalli", email = "hey@parapalli.dev" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "pydantic>=2.13.5",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"

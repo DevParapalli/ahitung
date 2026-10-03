@@ -1,0 +1,182 @@
+{
+  "valid": [
+    {
+      "name": "empty",
+      "tools": [],
+      "canonical": "[]",
+      "hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "name": "single",
+      "tools": [
+        {
+          "name": "read_file",
+          "description": "Read a file.",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          }
+        }
+      ],
+      "canonical": "[{\"description\":\"Readafile.\",\"name\":\"read_file\",\"parameters\":{\"properties\":{\"path\":{\"type\":\"string\"}},\"required\":[\"path\"],\"type\":\"object\"}}]",
+      "hash": "446db1641bf15579b971bd590dde76f8a6c3df3bbc6fefc8fd372ecf70450935"
+    },
+    {
+      "name": "unsorted_by_code_point",
+      "tools": [
+        {
+          "name": "write_file",
+          "description": "Write a file.",
+          "parameters": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "list_dir",
+          "description": "List a directory.",
+          "parameters": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "Zeta",
+          "description": "Uppercase sorts first.",
+          "parameters": {
+            "type": "object"
+          }
+        }
+      ],
+      "canonical": "[{\"description\":\"Uppercasesortsfirst.\",\"name\":\"Zeta\",\"parameters\":{\"type\":\"object\"}},{\"description\":\"Listadirectory.\",\"name\":\"list_dir\",\"parameters\":{\"type\":\"object\"}},{\"description\":\"Writeafile.\",\"name\":\"write_file\",\"parameters\":{\"type\":\"object\"}}]",
+      "hash": "e70ecdcb13caaf9f6e534b9436672784e5e2cb04bebb3e9a84e28f6b4f34abfa"
+    },
+    {
+      "name": "non_ascii_strings",
+      "tools": [
+        {
+          "name": "cafe",
+          "description": "Brew café ☕ — strong",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "note": {
+                "type": "string",
+                "description": "日本語 テキスト"
+              }
+            }
+          }
+        }
+      ],
+      "canonical": "[{\"description\":\"Brewcafé☕—strong\",\"name\":\"cafe\",\"parameters\":{\"properties\":{\"note\":{\"description\":\"日本語テキスト\",\"type\":\"string\"}},\"type\":\"object\"}}]",
+      "hash": "e23300a0057d3519c45be5a2432b9e12a2320a41de514ec8c58117ad16ba6776"
+    },
+    {
+      "name": "unicode_whitespace",
+      "tools": [
+        {
+          "name": "ws",
+          "description": "a\u00a0b\u3000c\u2028d\u200be\tf\ng\r\nh\u000bi",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "file path": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "canonical": "[{\"description\":\"abc\u2028d\u200befgh\\u000bi\",\"name\":\"ws\",\"parameters\":{\"properties\":{\"filepath\":{\"type\":\"string\"}},\"type\":\"object\"}}]",
+      "hash": "399033277fe3ef7a0557e499ffe94a4917eac91190b333f2bf2774be86a07c3f"
+    },
+    {
+      "name": "escapes_and_scalars",
+      "tools": [
+        {
+          "name": "esc",
+          "description": "say \"hi\" to C:\\dir",
+          "parameters": {
+            "maxLength": 10,
+            "minimum": -3,
+            "nullable": null,
+            "flag": false
+          }
+        }
+      ],
+      "canonical": "[{\"description\":\"say\\\"hi\\\"toC:\\\\dir\",\"name\":\"esc\",\"parameters\":{\"flag\":false,\"maxLength\":10,\"minimum\":-3,\"nullable\":null}}]",
+      "hash": "9bddd4c6b8d7869dc32ca69de09afe94bc09bfa0628248253a7bec93104d7d2c"
+    },
+    {
+      "name": "extra_keys_dropped",
+      "tools": [
+        {
+          "name": "x",
+          "description": "d",
+          "parameters": {},
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      ],
+      "canonical": "[{\"description\":\"d\",\"name\":\"x\",\"parameters\":{}}]",
+      "hash": "e836a67307fe46caed8daf9e9fd9bac3dcbc5f8f00e874b1bd7b12677de526e3"
+    }
+  ],
+  "rejected": [
+    {
+      "name": "float",
+      "tools": [
+        {
+          "name": "x",
+          "description": "d",
+          "parameters": {
+            "minimum": 1.5
+          }
+        }
+      ]
+    },
+    {
+      "name": "unsafe_integer",
+      "tools": [
+        {
+          "name": "x",
+          "description": "d",
+          "parameters": {
+            "maximum": 9007199254740992
+          }
+        }
+      ]
+    },
+    {
+      "name": "non_ascii_key",
+      "tools": [
+        {
+          "name": "x",
+          "description": "d",
+          "parameters": {
+            "é": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "keys_equal_after_stripping",
+      "tools": [
+        {
+          "name": "x",
+          "description": "d",
+          "parameters": {
+            "a b": 1,
+            "ab": 2
+          }
+        }
+      ]
+    }
+  ]
+}

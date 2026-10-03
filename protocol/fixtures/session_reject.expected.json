@@ -1,0 +1,18 @@
+{
+  "sid": "01920000-0000-7000-8000-000000000001",
+  "last_seq": 2,
+  "phase": "rejected",
+  "proto": null,
+  "workspace": null,
+  "workspace_state": null,
+  "tools_hash": null,
+  "rejection": {
+    "code": "mcp.unreachable",
+    "msg": "docs failed to connect"
+  },
+  "ending": null,
+  "settings": null,
+  "turns": {},
+  "calls": {},
+  "approvals": {}
+}
