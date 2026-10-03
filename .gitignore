@@ -374,3 +374,5 @@ cython_debug/
 
 # AI drafts - might be actually shit, but useful as a starting point
 .ai-stuff
+# The C template above ignores *.mod; Go modules need theirs tracked.
+!go.mod
