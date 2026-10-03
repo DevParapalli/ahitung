@@ -1,5 +1,5 @@
-{"seq":1,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"fe","t":"session.request","workspace":true,"resume":null,"client":"fixture"}
-{"seq":2,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"be","t":"session.start","proto":"ahitung/1","workspace":true,"tools_hash":"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"}
+{"seq":1,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"fe","t":"session.request","workspace":"01920000-0000-7000-8000-000000000041","resume":null,"client":"fixture"}
+{"seq":2,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"be","t":"session.start","proto":"ahitung/1","workspace":"01920000-0000-7000-8000-000000000041","workspace_state":"cold","tools_hash":"4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"}
 {"seq":3,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"worker","t":"session.settings","model":"m-1","provider":"p"}
 {"seq":4,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","tid":"01920000-0000-7000-8000-000000000011","src":"fe","t":"turn.start"}
 {"seq":5,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","tid":"01920000-0000-7000-8000-000000000011","inv":0,"blk":0,"src":"fe","t":"message.text","text":"do a long thing"}

@@ -126,6 +126,7 @@ class Settings(Payload):
 class Rejection(Payload):
     code: Literal[
         "sid.collision",
+        "workspace.missing",
         "workspace.failed",
         "mcp.unreachable",
         "proto.unsupported",
@@ -155,9 +156,7 @@ class SessionRequest(Event):
     scope = "session"
     producers = frozenset({"fe"})
     t: Literal["session.request"]
-    # One workspace serves every session; this only says whether to offer
-    # its file and execution tools. False is a chat-only session.
-    workspace: bool
+    workspace: UUID7 | None
     resume: UUID7 | None
     client: str
 
@@ -167,8 +166,15 @@ class SessionStart(Event):
     producers = frozenset({"be"})
     t: Literal["session.start"]
     proto: str
-    workspace: bool
+    workspace: UUID7 | None
+    workspace_state: Literal["cold", "warm"] | None = None
     tools_hash: Sha256
+
+    @model_validator(mode="after")
+    def _check_workspace_state(self) -> Self:
+        if (self.workspace is None) != (self.workspace_state is None):
+            raise ValueError("workspace_state is present exactly when workspace is")
+        return self
 
 
 class SessionReject(Event, Rejection):

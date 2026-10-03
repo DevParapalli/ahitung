@@ -1,2 +1,2 @@
-{"seq":1,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"fe","t":"session.request","workspace":true,"resume":null,"client":"fixture"}
+{"seq":1,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"fe","t":"session.request","workspace":"01920000-0000-7000-8000-000000000041","resume":null,"client":"fixture"}
 {"seq":2,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"be","t":"session.reject","code":"mcp.unreachable","msg":"docs failed to connect"}

@@ -103,7 +103,8 @@ class State(BaseModel):
     last_seq: int | None = None
     phase: Literal["new", "requested", "started", "rejected", "ended"] = "new"
     proto: str | None = None
-    workspace: bool | None = None
+    workspace: UUID | None = None
+    workspace_state: Literal["cold", "warm"] | None = None
     tools_hash: str | None = None
     rejection: Rejection | None = None
     ending: Ending | None = None
@@ -225,6 +226,7 @@ def _session_start(state: State, event: SessionStart) -> None:
     state.phase = "started"
     state.proto = event.proto
     state.workspace = event.workspace
+    state.workspace_state = event.workspace_state
     state.tools_hash = event.tools_hash
 
 

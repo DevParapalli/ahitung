@@ -1,1 +1,1 @@
-{"seq":1,"ts":"2026-10-03T15:30:00+05:30","sid":"01920000-0000-7000-8000-000000000001","src":"fe","t":"session.request","workspace":false,"resume":null,"client":"fixture"}
+{"seq":1,"ts":"2026-10-03T15:30:00+05:30","sid":"01920000-0000-7000-8000-000000000001","src":"fe","t":"session.request","workspace":null,"resume":null,"client":"fixture"}
