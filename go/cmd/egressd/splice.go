@@ -6,6 +6,7 @@ import (
 	"io"
 	"net"
 	"net/netip"
+	"slices"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -29,6 +30,7 @@ type server struct {
 	policy atomic.Pointer[Policy]
 	answer netip.Addr // egressd's address on the sandbox, returned for allowed names
 	worker netip.Addr
+	self   []netip.Addr // egressd's own addresses: traffic from them is the health check
 	log    *logger
 	idle   time.Duration
 
@@ -40,8 +42,11 @@ type server struct {
 
 func (s *server) source(ev string, ip netip.Addr) source {
 	kind := "workspace"
-	if ip == s.worker {
+	switch {
+	case ip == s.worker:
 		kind = "worker"
+	case slices.Contains(s.self, ip):
+		kind = "self"
 	}
 	return source{TS: timestamp(), Ev: ev, SourceKind: kind}
 }

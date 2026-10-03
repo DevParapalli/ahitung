@@ -1,0 +1,4 @@
+# The only network with a route to the internet. egressd alone joins it.
+[Network]
+NetworkName=ahitung-outbound
+Subnet=10.89.2.0/24

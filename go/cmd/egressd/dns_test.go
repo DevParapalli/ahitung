@@ -46,7 +46,7 @@ func TestDNSAllowedNameResolvesToEgressd(t *testing.T) {
 		t.Errorf("answer %v, want egressd's own address", a)
 	}
 	logged := events(t, out, "dns")[0]
-	if logged["decision"] != "allow" || logged["rule"] != "pypi.org" || logged["answer"] != "10.89.0.2" {
+	if logged["decision"] != "allow" || logged["rule"] != "pypi.org" || logged["answer"] != "10.89.0.2" || logged["qtype"] != "A" {
 		t.Errorf("logged %v", logged)
 	}
 }

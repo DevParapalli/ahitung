@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Links the Quadlet units into the user's systemd, installs the stack target,
+# and seeds the egressd policy if none exists. Safe to re-run.
+set -euo pipefail
+
+repo=$(cd "$(dirname "$0")/.." && pwd)
+config=${XDG_CONFIG_HOME:-$HOME/.config}
+units=$config/containers/systemd/ahitung
+target=$config/systemd/user/ahitung.target
+policy=$config/ahitung/egressd.json
+
+mkdir -p "$(dirname "$units")" "$(dirname "$target")" "$(dirname "$policy")"
+
+if [[ -e $units && ! -L $units ]]; then
+    echo "install: $units exists and is not a symlink; refusing to replace it" >&2
+    exit 1
+fi
+ln -sfn "$repo/deploy/quadlet" "$units"
+echo "linked   $units -> $repo/deploy/quadlet"
+
+install -m 0644 "$repo/deploy/ahitung.target" "$target"
+echo "copied   $target"
+
+if [[ -e $policy ]]; then
+    echo "kept     $policy (already present)"
+else
+    install -m 0644 "$repo/deploy/egressd.example.json" "$policy"
+    echo "seeded   $policy"
+fi
+
+systemctl --user daemon-reload
+echo "reloaded systemd user units"
+
+if [[ $(loginctl show-user "$USER" --property=Linger --value) != yes ]]; then
+    echo "note: the stack stops when you log out; to keep it running, run:"
+    echo "  loginctl enable-linger $USER"
+fi

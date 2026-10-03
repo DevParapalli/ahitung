@@ -1,0 +1,11 @@
+{
+  "rules": [
+    {"allow": "pypi.org", "name": "python"},
+    {"allow": "files.pythonhosted.org", "name": "python"},
+    {"allow": "registry.npmjs.org", "name": "node"},
+    {"allow": "github.com", "name": "git"},
+    {"allow": "example.org"},
+    {"allow": "parapalli.dev"},
+    {"allow": "**.parapalli.dev"}
+  ]
+}

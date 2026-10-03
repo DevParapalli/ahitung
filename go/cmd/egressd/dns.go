@@ -5,6 +5,7 @@ import (
 	"io"
 	"net"
 	"net/netip"
+	"strings"
 	"time"
 
 	"golang.org/x/net/dns/dnsmessage"
@@ -37,9 +38,10 @@ func (s *server) answerDNS(query []byte, src netip.Addr) []byte {
 	q := questions[0]
 
 	event := dnsEvent{
-		source:   s.source("dns", src),
-		QName:    q.Name.String(),
-		QType:    q.Type.String(),
+		source: s.source("dns", src),
+		QName:  q.Name.String(),
+		// dnsmessage names types "TypeA"; the log uses the plain mnemonic.
+		QType:    strings.TrimPrefix(q.Type.String(), "Type"),
 		Decision: "deny",
 	}
 	var answer *dnsmessage.AResource

@@ -6,6 +6,7 @@ package main
 import (
 	"context"
 	"errors"
+	"flag"
 	"fmt"
 	"net"
 	"net/netip"
@@ -23,13 +24,28 @@ type config struct {
 }
 
 func main() {
+	healthcheckMode := flag.Bool("healthcheck", false, "probe the running egressd's listeners and exit")
+	flag.Parse()
+	run := serve
+	if *healthcheckMode {
+		run = probe
+	}
 	if err := run(); err != nil {
 		fmt.Fprintln(os.Stderr, "egressd:", err)
 		os.Exit(1)
 	}
 }
 
-func run() error {
+func probe() error {
+	cfg, err := configFromEnv()
+	if err != nil {
+		return err
+	}
+	at := cfg.listen[0]
+	return healthcheck(netip.AddrPortFrom(at, 53), netip.AddrPortFrom(at, 443))
+}
+
+func serve() error {
 	cfg, err := configFromEnv()
 	if err != nil {
 		return err
@@ -41,6 +57,7 @@ func run() error {
 	s := &server{
 		answer:  cfg.answer,
 		worker:  cfg.worker,
+		self:    cfg.listen,
 		log:     newLogger(os.Stdout),
 		idle:    idleTimeout,
 		resolve: lookup,

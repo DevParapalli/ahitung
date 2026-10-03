@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Status of the target and every container unit in deploy/quadlet.
+set -euo pipefail
+
+repo=$(cd "$(dirname "$0")/.." && pwd)
+services=()
+for unit in "$repo"/deploy/quadlet/*.container; do
+    services+=("$(basename "$unit" .container).service")
+done
+systemctl --user --no-pager status ahitung.target "${services[@]}"

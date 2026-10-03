@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Lists every name:tag@sha256 image pin in the repo beside the digest its tag
+# points to now. With --update, rewrites each stale pin in place; review the
+# diff before committing, since a new digest is new, unreviewed code.
+set -euo pipefail
+
+repo=$(cd "$(dirname "$0")/.." && pwd)
+update=false
+case ${1:-} in
+    "") ;;
+    --update) update=true ;;
+    *)
+        echo "usage: $0 [--update]" >&2
+        exit 2
+        ;;
+esac
+
+pin='docker\.io/[a-z0-9._/-]+:[A-Za-z0-9._-]+@sha256:[0-9a-f]{64}'
+mapfile -t pins < <(git -C "$repo" grep --untracked -hoE "$pin" | sort -u)
+
+stale=0
+for ref in "${pins[@]}"; do
+    tagged=${ref%@*}
+    pinned=${ref#*@}
+    # A tag's digest is the SHA-256 of the manifest it serves, list or single.
+    current=sha256:$(timeout 60 skopeo inspect --raw "docker://$tagged" | sha256sum | cut -d' ' -f1)
+    if [[ $pinned == "$current" ]]; then
+        echo "current  $tagged"
+        continue
+    fi
+    stale=$((stale + 1))
+    echo "stale    $tagged"
+    echo "         pinned $pinned"
+    echo "         now    $current"
+    if $update; then
+        git -C "$repo" grep --untracked -lF "$ref" | while read -r file; do
+            sed -i "s|$ref|$tagged@$current|g" "$repo/$file"
+            echo "         updated $file"
+        done
+    fi
+done
+
+if [[ $stale -gt 0 ]] && ! $update; then
+    echo "$stale stale; run $0 --update to rewrite them"
+fi

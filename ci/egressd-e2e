@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# End-to-end check of egressd through real Podman networks (repo.md §6,
+# sandbox tier; runs on mars, not in hosted CI). Needs the stack up with the
+# example policy: scripts/install, scripts/rebuild egressd, scripts/up.
+#
+# Each client runs on ahitung-sandbox with egressd as its only DNS server,
+# exactly as a workspace does.
+set -euo pipefail
+
+python=docker.io/library/python:3.14-slim@sha256:0741d101873c12ab927e6f8653feb8862b9bd58771177acb1b885b95141f91b4
+node=docker.io/library/node:24-slim@sha256:0e0ff40c39bc087845bfb27465a0df4ea419520094bc35842ff83dd8cbe6f9b6
+scm=docker.io/library/buildpack-deps:trixie-scm@sha256:ed6425e2963332c914dd78c0768b4b0f86680ac5f3d630f39f91ec8aa82384a1
+
+if ! systemctl --user is-active --quiet egressd; then
+    echo "egressd-e2e: egressd is not running; run scripts/up first" >&2
+    exit 1
+fi
+for image in "$python" "$node" "$scm"; do
+    podman image exists "$image" || podman pull --quiet "$image" >/dev/null
+done
+
+since=$(date --utc '+%Y-%m-%d %H:%M:%S')
+failures=0
+
+sandbox() {
+    timeout 180 podman run --rm --network ahitung-sandbox --dns 10.89.0.2 "$@"
+}
+
+expect_pass() {
+    local name=$1
+    shift
+    if "$@" >/dev/null 2>&1; then
+        echo "PASS  $name"
+    else
+        echo "FAIL  $name"
+        failures=$((failures + 1))
+    fi
+}
+
+expect_refused() {
+    local name=$1
+    shift
+    if "$@" >/dev/null 2>&1; then
+        echo "FAIL  $name (got through)"
+        failures=$((failures + 1))
+    else
+        echo "PASS  $name"
+    fi
+}
+
+expect_pass "pip downloads from pypi.org" \
+    sandbox "$python" pip download --no-deps --dest /tmp six
+expect_pass "npm reads registry.npmjs.org" \
+    sandbox "$node" npm view left-pad version
+expect_pass "node fetch reaches example.org" \
+    sandbox "$node" node -e 'fetch("https://example.org").then(r => process.exit(r.ok ? 0 : 1), () => process.exit(1))'
+expect_pass "git lists github.com refs" \
+    sandbox "$scm" git ls-remote https://github.com/git/git HEAD
+expect_pass "curl reaches example.org" \
+    sandbox "$scm" curl --fail --silent --max-time 20 --output /dev/null https://example.org
+
+expect_refused "name off the allowlist gets no answer" \
+    sandbox "$scm" curl --fail --silent --max-time 20 --output /dev/null https://example.com
+expect_refused "SNI off the allowlist is refused at egressd" \
+    sandbox "$scm" curl --fail --silent --max-time 20 --output /dev/null \
+    --resolve example.com:443:10.89.0.2 https://example.com
+expect_refused "plain HTTP to an allowed host has no listener" \
+    sandbox "$scm" curl --fail --silent --max-time 20 --output /dev/null http://example.org
+expect_refused "an IP literal has no route" \
+    sandbox "$scm" curl --fail --silent --max-time 10 --output /dev/null https://1.1.1.1
+
+log=$(journalctl --user --unit egressd --since "$since" --output cat)
+expect_pass "decision log records an allowed connection" \
+    grep -q '"ev":"conn".*"sni":"example.org".*"decision":"allow"' <<<"$log"
+expect_pass "decision log records the refused SNI" \
+    grep -q '"sni":"example.com".*"rule":"egress.deny.not_allowed"' <<<"$log"
+expect_pass "decision log records the refused DNS name" \
+    grep -q '"ev":"dns".*"qname":"example.com.".*"decision":"deny"' <<<"$log"
+
+if [[ $failures -gt 0 ]]; then
+    echo "$failures failed"
+    exit 1
+fi
+echo "all passed"

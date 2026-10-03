@@ -1,0 +1,7 @@
+# Workspaces. No route out and no Podman resolver: DNS goes to egressd at
+# 10.89.0.2, which is the only reachable host (egressd.md §2).
+[Network]
+NetworkName=ahitung-sandbox
+Internal=true
+DisableDNS=true
+Subnet=10.89.0.0/24

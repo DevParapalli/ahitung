@@ -1,0 +1,8 @@
+# The worker's path to egressd, which it reaches by address (egressd.md §12).
+# DNS is disabled so egressd's own resolv.conf lists only the outbound
+# network's resolver, the one that forwards to the internet.
+[Network]
+NetworkName=ahitung-worker-out
+Internal=true
+DisableDNS=true
+Subnet=10.89.1.0/24

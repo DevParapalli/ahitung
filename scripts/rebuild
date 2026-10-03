@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Builds one service's image and restarts its unit, e.g. scripts/rebuild egressd.
+set -euo pipefail
+
+repo=$(cd "$(dirname "$0")/.." && pwd)
+if [[ $# -ne 1 ]]; then
+    echo "usage: $0 <service>" >&2
+    exit 2
+fi
+
+case $1 in
+    egressd)
+        podman build --tag localhost/ahitung/egressd:latest \
+            --file "$repo/go/cmd/egressd/Containerfile" "$repo/go"
+        ;;
+    *)
+        echo "rebuild: no image recipe for $1" >&2
+        exit 2
+        ;;
+esac
+
+if systemctl --user is-active --quiet "$1"; then
+    systemctl --user restart "$1"
+fi
