@@ -1,5 +1,5 @@
-{"seq":1,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"fe","t":"session.request","workspace":null,"resume":null,"client":"fixture"}
-{"seq":2,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"be","t":"session.start","proto":"ahitung/1","workspace":null,"tools_hash":"4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"}
+{"seq":1,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"fe","t":"session.request","workspace":false,"resume":null,"client":"fixture"}
+{"seq":2,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"be","t":"session.start","proto":"ahitung/1","workspace":false,"tools_hash":"4F53CDA18C2BAA0C0354BB5F9A3ECBE5ED12AB4D8E11BA873C2F11161202B945"}
 {"seq":3,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","src":"worker","t":"session.settings","model":"m-1","provider":"p"}
 {"seq":4,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","tid":"01920000-0000-7000-8000-000000000011","src":"fe","t":"turn.start"}
 {"seq":5,"ts":"2026-10-03T10:00:00Z","sid":"01920000-0000-7000-8000-000000000001","tid":"01920000-0000-7000-8000-000000000011","inv":0,"blk":0,"src":"fe","t":"message.text","text":"hello"}
