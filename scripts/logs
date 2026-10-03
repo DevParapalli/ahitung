@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Follows one service's journal, e.g. scripts/logs egressd.
+set -euo pipefail
+
+if [[ $# -ne 1 ]]; then
+    echo "usage: $0 <service>" >&2
+    exit 2
+fi
+journalctl --user -u "$1" -f

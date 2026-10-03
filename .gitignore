@@ -376,3 +376,5 @@ cython_debug/
 .ai-stuff
 # The C template above ignores *.mod; Go modules need theirs tracked.
 !go.mod
+# The Node template above ignores anything named logs, including this script.
+!/scripts/logs
