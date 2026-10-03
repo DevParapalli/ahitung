@@ -37,7 +37,9 @@ _SCOPE_FIELDS: dict[Scope, tuple[bool, bool, bool]] = {
 
 
 class Payload(BaseModel):
-    model_config = ConfigDict(frozen=True, extra="ignore")
+    # Strict: a TypeScript reader takes JSON types as they are, so coercing
+    # "5" to 5 or 1 to true here would let the two implementations disagree.
+    model_config = ConfigDict(frozen=True, extra="ignore", strict=True)
 
     @classmethod
     def of(cls, event: Payload) -> Self:
@@ -424,4 +426,6 @@ def parse(line: str | bytes) -> Event | None:
         raise ValueError("an event is a JSON object with a string t")
     model = EVENT_TYPES.get(data["t"])
     # protocol.md §2: unrecognised types are ignored, whatever their crit.
-    return None if model is None else model.model_validate(data)
+    # Validated from the text: strict mode accepts a string for a UUID or a
+    # timestamp only when it is parsing JSON, not a decoded dict.
+    return None if model is None else model.model_validate_json(line)
