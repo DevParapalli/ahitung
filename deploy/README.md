@@ -140,7 +140,7 @@ before committing it. Signature verification is not done yet.
 
 ## Testing
 
-`ci/egressd-e2e` runs pip, npm, Node `fetch`, git, and curl from throwaway
+`tests/egressd-e2e` runs pip, npm, Node `fetch`, git, and curl from throwaway
 containers on `ahitung-sandbox`, checks that allowed hosts work and that
 unlisted names, unlisted server names, plain HTTP, and IP addresses fail, and
 checks the decision log recorded both. It needs the stack up with the example
