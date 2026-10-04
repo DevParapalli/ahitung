@@ -11,7 +11,7 @@ fi
 case $1 in
     egressd)
         podman build --tag localhost/ahitung/egressd:latest \
-            --file "$repo/go/cmd/egressd/Containerfile" "$repo/go"
+            --file "$repo/egressd/Containerfile" "$repo/egressd"
         ;;
     *)
         echo "rebuild: no image recipe for $1" >&2

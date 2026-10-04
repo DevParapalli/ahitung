@@ -1,4 +1,4 @@
-module github.com/DevParapalli/ahitung/go
+module github.com/DevParapalli/ahitung/egressd
 
 go 1.27.1
 

@@ -1,10 +1,10 @@
-# Build context is go/: podman build -f cmd/egressd/Containerfile go
+# Build context is egressd/: podman build -f egressd/Containerfile egressd
 FROM docker.io/library/golang:1.27.1@sha256:e0174e51e81218523251d85d248a90d24c3d5e81543b4f07a5d66229397db190 AS build
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
-COPY cmd/egressd ./cmd/egressd
-RUN CGO_ENABLED=0 go build -trimpath -ldflags=-s -o /egressd ./cmd/egressd
+COPY . .
+RUN CGO_ENABLED=0 go build -trimpath -ldflags=-s -o /egressd .
 
 FROM scratch
 COPY --from=build /egressd /egressd
