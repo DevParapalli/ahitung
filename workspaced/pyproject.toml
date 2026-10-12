@@ -1,0 +1,26 @@
+[project]
+name = "ahitung-workspaced"
+version = "0.1.0"
+description = "In-workspace MCP tool server: files, execution, terminal sessions."
+license = "MIT"
+authors = [
+    { name = "DevParapalli", email = "hey@parapalli.dev" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "fastmcp-slim[server]>=4.1.0",
+    "uvicorn>=0.54.0",
+]
+
+[project.scripts]
+workspaced = "ahitung_workspaced.app:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "fastmcp-slim[client]>=4.1.0",
+    "httpx2>=2.13.1",
+]

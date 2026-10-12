@@ -1,5 +1,5 @@
 [tool.uv.workspace]
-members = ["protocol/python"]
+members = ["protocol/python", "workspaced"]
 
 [dependency-groups]
 dev = [
@@ -14,4 +14,4 @@ target-version = "py314"
 select = ["E", "F", "I", "B", "UP"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["ahitung_protocol"]
+known-first-party = ["ahitung_protocol", "ahitung_workspaced"]
